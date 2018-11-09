@@ -46,6 +46,7 @@ public class RpcClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, RpcResponse response) throws Exception {
+        System.out.println("read channel ====>" + ctx.channel());
         String requestId = response.getRequestId();
         RPCFuture rpcFuture = pendingRPC.get(requestId);
         if (rpcFuture != null) {
@@ -68,7 +69,7 @@ public class RpcClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
         RPCFuture rpcFuture = new RPCFuture(request);
         pendingRPC.put(request.getRequestId(), rpcFuture);
         channel.writeAndFlush(request);
-
+        System.out.println("write  channel====>" + channel);
         return rpcFuture;
     }
 }
